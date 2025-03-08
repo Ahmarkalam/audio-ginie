@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Genie - Upload & Summarize</title>
+</head>
+<body>
+    <h1>Audio Genie</h1>
+    <h2>Upload Audio File</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Uploaded Audio Files</h2>
+<ul>
+    {% for audio in audio_files %}
+        <li>
+            {{ audio.title }} - <a href="{{ audio.audio.url }}">Listen</a> | 
+            <a href="{% url 'summarize_audio' audio.id %}">Summarize</a>
+        </li>
+    {% empty %}
+        <li>No audio files uploaded yet.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

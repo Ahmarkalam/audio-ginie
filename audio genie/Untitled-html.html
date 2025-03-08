@@ -1,0 +1,111 @@
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { UploadCloud, Play, FileText, Target, ListChecks, Lightbulb, Loader2, AlertTriangle } from "lucide-react";
+
+const AudioGenie = () => {
+  const [audioFile, setAudioFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [summary, setSummary] = useState("");
+
+  const handleFileChange = (e) => {
+    setAudioFile(e.target.files[0]);
+    setSummary("");
+    setError(null);
+  };
+
+  const handleSummarize = () => {
+    setLoading(true);
+    setError(null);
+    setTimeout(() => {
+      setSummary("This is a summarized text of the audio file.");
+      setLoading(false);
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-white p-8 flex flex-col items-center text-gray-800">
+      <h1 className="text-5xl font-extrabold mb-8 drop-shadow-lg bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
+        Audio Genie
+      </h1>
+      <p className="text-lg mb-6 max-w-2xl text-center">
+        Welcome to <span className="text-purple-600">Audio Genie</span>, your smart assistant for transforming audio files into concise and insightful summaries. Experience state-of-the-art voice interaction and seamless audio analysis.
+      </p>
+      <Card className="w-full max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-xl mb-8">
+        <CardContent>
+          <div className="flex flex-col items-center gap-4">
+            <label className="flex flex-col items-center cursor-pointer text-lg">
+              <UploadCloud className="w-10 h-10 mb-2 text-purple-500" />
+              <span className="font-semibold text-purple-600">Upload Audio File</span>
+              <input type="file" accept="audio/*" className="hidden" onChange={handleFileChange} />
+            </label>
+            {audioFile && (
+              <div className="text-center mt-4">
+                <p className="text-lg font-medium mb-2">{audioFile.name}</p>
+                <div className="flex gap-4">
+                  <Button className="bg-green-500 hover:bg-green-600 flex items-center gap-2">
+                    <Play className="w-4 h-4" /> Play
+                  </Button>
+                  <Button
+                    className="bg-purple-500 hover:bg-purple-600 flex items-center gap-2"
+                    onClick={handleSummarize}
+                    disabled={loading}
+                  >
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+                    {loading ? "Summarizing..." : "Summarize"}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+          {error && (
+            <div className="mt-4 text-red-500 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5" /> {error}
+            </div>
+          )}
+          {summary && (
+            <div className="mt-6 p-4 bg-gray-100 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2">Summary:</h3>
+              <p className="text-sm">{summary}</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl">
+        <Card className="p-6 bg-white text-gray-900 rounded-2xl shadow-xl">
+          <CardContent className="flex flex-col items-center">
+            <Target className="w-10 h-10 mb-2 text-pink-500" />
+            <h3 className="text-xl font-semibold mb-2">Accurate Audio Summarization</h3>
+            <p className="text-sm text-center">
+              Transform lengthy audio files into short, clear, and accurate summaries instantly.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="p-6 bg-white text-gray-900 rounded-2xl shadow-xl">
+          <CardContent className="flex flex-col items-center">
+            <ListChecks className="w-10 h-10 mb-2 text-blue-500" />
+            <h3 className="text-xl font-semibold mb-2">Supports Multiple Audio Formats</h3>
+            <p className="text-sm text-center">
+              Upload and summarize audio files in various formats including MP3, WAV, and more.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="p-6 bg-white text-gray-900 rounded-2xl shadow-xl">
+          <CardContent className="flex flex-col items-center">
+            <Lightbulb className="w-10 h-10 mb-2 text-green-500" />
+            <h3 className="text-xl font-semibold mb-2">Advanced Speech Analysis</h3>
+            <p className="text-sm text-center">
+              Experience deep audio analysis to capture key insights and contextual understanding.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default AudioGenie;
