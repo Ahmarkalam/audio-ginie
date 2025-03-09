@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Genie</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Audio Genie</h1>
+        <p class="subtitle">
+            Welcome to <span class="highlight">Audio Genie</span>, your smart assistant for transforming audio files into concise and insightful summaries. Experience state-of-the-art voice interaction and seamless audio analysis.
+        </p>
+        <div class="card">
+            <label class="upload-label">
+                <span>Upload Audio File</span>
+                <input type="file" accept="audio/*" class="file-input" onchange="handleFileChange(event)">
+            </label>
+            <button class="btn" onclick="handleSummarize()">Summarize</button>
+        </div>
+        <div id="summary" class="summary"></div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>Accurate Audio Summarization</h3>
+                <p>Transform lengthy audio files into short, clear, and accurate summaries instantly.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Supports Multiple Audio Formats</h3>
+                <p>Upload and summarize audio files in various formats including MP3, WAV, and more.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Advanced Speech Analysis</h3>
+                <p>Experience deep audio analysis to capture key insights and contextual understanding.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioFile = null;
+
+        function handleFileChange(event) {
+            audioFile = event.target.files[0];
+            document.getElementById('summary').textContent = '';
+        }
+
+        function handleSummarize() {
+            if (audioFile) {
+                document.getElementById('summary').textContent = 'This is a summarized text of the audio file.';
+            } else {
+                alert('Please upload an audio file first.');
+            }
+        }
+    </script>
+</body>
+</html>
+
